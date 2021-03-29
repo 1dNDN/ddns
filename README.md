@@ -10,5 +10,6 @@ and PddToken:your_toren in headers.
 
 Use  
 ```
-docker pull 1dndn/ddns for update app
+docker pull 1dndn/ddns
 ```
+for update app
