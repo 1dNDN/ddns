@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Net;
 
 namespace ddns
@@ -9,8 +7,8 @@ namespace ddns
 	{
 		static void Main(string[] args)
         {
-            string LastIPFilePath = Environment.GetEnvironmentVariable(nameof(LastIPFilePath));
-            string LogIPFilePath = Environment.GetEnvironmentVariable(nameof(LogIPFilePath));
+            //string LastIPFilePath = Environment.GetEnvironmentVariable(nameof(LastIPFilePath));
+            //string LogIPFilePath = Environment.GetEnvironmentVariable(nameof(LogIPFilePath));
             string RawIPSource = Environment.GetEnvironmentVariable(nameof(RawIPSource));
             string PddToken = Environment.GetEnvironmentVariable(nameof(PddToken));
             string Domain = Environment.GetEnvironmentVariable(nameof(Domain));
@@ -20,13 +18,13 @@ namespace ddns
 
             using WebClient client = new();
             string currentIp = client.DownloadString(RawIPSource);
-            File.AppendAllText(LogIPFilePath, currentIp + "\n");
-            if (File.ReadAllLines(LastIPFilePath).First() == currentIp) return;
+            //File.AppendAllText(LogIPFilePath, currentIp + "\n");
+            //if (File.ReadAllLines(LastIPFilePath).First() == currentIp) return;
 
             string editRequestUrl = $"https://pddimp.yandex.ru/api2/admin/dns/edit?domain={Domain}&record_id={RecordID}&subdomain={Subdomain}&ttl={TTL}&content={currentIp}";
             client.Headers.Add("PddToken", PddToken);
             if(!client.UploadString(editRequestUrl, "").Contains("\"success\"\": \"\"ok\"\"")) return;
-            File.WriteAllText(LastIPFilePath, currentIp);
+            //File.WriteAllText(LastIPFilePath, currentIp);
         }
 	}
 }
