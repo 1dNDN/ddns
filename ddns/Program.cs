@@ -3,9 +3,9 @@ using System.Net;
 
 namespace ddns
 {
-	class Program
-	{
-		static void Main(string[] args)
+    internal class Program
+    {
+        private static void Main(string[] args)
         {
             //string LastIPFilePath = Environment.GetEnvironmentVariable(nameof(LastIPFilePath));
             //string LogIPFilePath = Environment.GetEnvironmentVariable(nameof(LogIPFilePath));
@@ -17,14 +17,14 @@ namespace ddns
             string TTL = Environment.GetEnvironmentVariable(nameof(TTL));
 
             using WebClient client = new();
-            string currentIp = client.DownloadString(RawIPSource);
+            var currentIp = client.DownloadString(RawIPSource);
             //File.AppendAllText(LogIPFilePath, currentIp + "\n");
             //if (File.ReadAllLines(LastIPFilePath).First() == currentIp) return;
 
-            string editRequestUrl = $"https://pddimp.yandex.ru/api2/admin/dns/edit?domain={Domain}&record_id={RecordID}&subdomain={Subdomain}&ttl={TTL}&content={currentIp}";
+            var editRequestUrl = $"https://pddimp.yandex.ru/api2/admin/dns/edit?domain={Domain}&record_id={RecordID}&subdomain={Subdomain}&ttl={TTL}&content={currentIp}";
             client.Headers.Add("PddToken", PddToken);
-            if(!client.UploadString(editRequestUrl, "").Contains("\"success\"\": \"\"ok\"\"")) return;
+            if (!client.UploadString(editRequestUrl, "").Contains("\"success\"\": \"\"ok\"\"")) return;
             //File.WriteAllText(LastIPFilePath, currentIp);
         }
-	}
+    }
 }
